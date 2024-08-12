@@ -7,7 +7,7 @@ import Variables from "./Variables";
 import Canvas from "./Canvas";
 import Logger from "./Logger";
 
-import { randomArray } from "./utils/random-array";
+import { randomUniqueArray } from "./utils/random-array";
 import { randomNumber } from "./utils/random-number";
 
 // Register the JavaScript language
@@ -26,7 +26,7 @@ const AlgorithmVisualizer = (props) => {
   let [inputVariables, setInputVariables] = useState([]);
 
   const handleRunCodeOnClick = () => {
-    const array = randomArray(arraySize, minValue, maxValue);
+    const array = randomUniqueArray(arraySize, minValue, maxValue);
     const randomPos = randomNumber(0, arraySize - 1);
     const target = array[randomPos];
     const inputArgument = [
@@ -70,7 +70,9 @@ const AlgorithmVisualizer = (props) => {
         {code}
       </SyntaxHighlighter>
       <div style={styles.container}>
-        <button onClick={handleRunCodeOnClick}>Run Code</button>
+        <button style={styles.button} onClick={handleRunCodeOnClick}>
+          Run Code
+        </button>
       </div>
       {runs.length > 0 && (
         <div style={styles.container}>
@@ -121,9 +123,6 @@ const styles = {
     color: "white",
     padding: "10px 0",
     textAlign: "center",
-  },
-  section: {
-    marginBottom: "20px",
   },
   footer: {
     textAlign: "center",

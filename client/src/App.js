@@ -4,6 +4,7 @@ import HomePage from "./HomePage";
 import DataStructuresPage from "./DataStructuresPage";
 import BinarySearchVisualizer from "./BinarySearchVisualizer";
 import BruteForceVisualizer from "./BruteForceVisualizer";
+import Benchmarks from "./Benchmarks";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/data-structures" element={<DataStructuresPage />} />
         <Route path="/brute-force" element={<BruteForceVisualizer />} />
         <Route path="/binary-search" element={<BinarySearchVisualizer />} />
+        <Route path="/benchmarks" element={<Benchmarks />} />
       </Routes>
     </Router>
   );

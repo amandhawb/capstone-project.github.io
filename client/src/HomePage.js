@@ -63,6 +63,9 @@ const Home = () => {
           <li>
             <Link to="/binary-search">Binary Search Visualizer</Link>
           </li>
+          <li>
+            <Link to="/benchmarks">Benchmarks</Link>
+          </li>
         </ul>
       </section>
       <footer style={styles.footer}>

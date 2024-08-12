@@ -2,17 +2,16 @@ import React from "react";
 import AlgorithmVisualizer from "./AlgorithmVisualizer";
 import { createTracer } from "./utils/tracer";
 const code = `function binarySearch(array, target){
-    let l = 0;
-    let r = array.length-1;
-    while(l <= r){
-     const m = Math.floor((l+r)/2);
-     const middle = array[m];
-     if(middle == target){
-        return m;
-      } else if(middle < target){
-        l = middle;
+    let left = 0;
+    let right = array.length-1;
+    while(left <= right){
+     const middle = Math.floor((left+right)/2);
+     if(array[middle] == target){
+        return middle;
+      } else if(array[middle] < target){
+        left = middle;
       } else {
-        r = middle;
+        right = middle;
       }
     }
     return -1;
@@ -28,6 +27,13 @@ function binarySearch(array, target) {
   let l = 0;
   let r = array.length - 1;
 
+  tracer.saveVariables([
+    { name: "left", value: 0 },
+    { name: "right", value: r },
+    { name: "middle", value: undefined },
+    { name: "array", value: array },
+  ]);
+
   while (l <= r) {
     const m = Math.floor((l + r) / 2);
     const middle = array[m];
@@ -37,10 +43,9 @@ function binarySearch(array, target) {
     tracer.logger("Creating m variable");
 
     tracer.saveVariables([
-      { name: "l", value: l },
-      { name: "r", value: r },
-      { name: "m", value: m },
-      { name: "middle", value: middle },
+      { name: "left", value: l },
+      { name: "right", value: r },
+      { name: "middle", value: m },
       { name: "array", value: array },
     ]);
 
