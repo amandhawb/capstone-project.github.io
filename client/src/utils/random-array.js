@@ -12,7 +12,6 @@ export function randomUniqueArray(size, minValue, maxValue) {
 
   const array = Array.from(tempSet);
   array.sort((a, b) => a - b);
-  //console.log('randomUniqueArray', array);
   return array;
 }
 
