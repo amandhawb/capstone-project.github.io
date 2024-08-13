@@ -1,27 +1,22 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-export const data = [
-  ["Array Size", "Algorithm 1", "Algorithm 2"],
-  // ["2004", 1000, 400],
-  // ["2005", 1170, 460],
-  // ["2006", 660, 1120],
-  // ["2007", 1030, 540],
-];
-
-export const options = {
-  title: "Benchnark",
-  curveType: "function",
-  legend: { position: "bottom" },
-};
-
 const Graph = (props) => {
+  
+  if(props.data.length != 2){
+    return;
+  }
+  
   const data = [];
+  const algorithm1Data = props.data[0].data;
+  const algorithm2Data = props.data[1].data;
+  data.push(["Array Size", props.data[0].label, props.data[1].label]);
+  if(algorithm1Data.length != algorithm2Data.length){
+    return;
+  }
 
-  const algorithm1 = props.data[0];
-  const algorithm2 = props.data[1];
-  for(let i=0;i<algorithm1.length;i++){
-    data.push([algorithm1.size, algorithm1.time, algorithm2.size]);
+  for(let i=0;i<algorithm1Data.length;i++){
+    data.push([algorithm1Data[i].size.toString(), algorithm1Data[i].time, algorithm2Data[i].time]);
   }
   
   return (
@@ -30,58 +25,17 @@ const Graph = (props) => {
       width="100%"
       height="400px"
       data={data}
-      options={options}
+      options={{
+        title: "Benchnark",
+        curveType: "function",
+        legend: { position: "bottom" },
+        vAxis: {
+          logScale: true,
+          minValue: 0
+        },
+      }}
     />
   );
 };
+
 export default Graph;
-
-// const data = [
-//   {
-//     label: "React Charts",
-//     data: [
-//       {
-//         date: new Date(),
-//         stars: 202123,
-//       },
-//     ],
-//   },
-//   {
-//     label: "React Query",
-//     data: [
-//       {
-//         date: new Date(),
-//         stars: 10234230,
-//       },
-//     ],
-//   },
-// ];
-
-// const Graph = (props) => {
-//   const {data} = props;
-//   const primaryAxis = React.useMemo(
-//     () => ({
-//       getValue: (datum) => datum.size,
-//     }),
-//     [],
-//   );
-
-//   const secondaryAxes = React.useMemo(
-//     () => [
-//       {
-//         getValue: (datum) => datum.time,
-//       },
-//     ],
-//     [],
-//   );
-
-//   return (
-//     <Chart
-//       options={{
-//         data,
-//         primaryAxis,
-//         secondaryAxes,
-//       }}
-//     />
-//   );
-// };

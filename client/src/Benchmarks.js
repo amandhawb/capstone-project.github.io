@@ -4,33 +4,55 @@ import Graph from "./Graph";
 
 import { randomUniqueArray } from "./utils/random-array";
 import { randomNumber } from "./utils/random-number";
-import Variable from "./Variable";
+
+function avg(size, array){
+  let sum = [];
+  array.forEach(item => sum+= item);
+  const response = sum/array.length;
+  console.log('avg', size, array, response);
+  return response;
+}
+
+function median(size, array){
+  if(array.length == 0) return 0;
+  array.sort((a,b) => a - b);
+
+  const response = array[Math.floor(array.length/2)];
+  console.log('median', size, array, response);
+  return response;
+}
 
 function binarySearch(array, target) {
+  let counter = 0;
+
   let l = 0;
   let r = array.length - 1;
-
-  while (l < r) {
+  while (l <= r) {
     const m = Math.floor((l + r) / 2);
     if (array[m] == target) {
-      return m;
+      counter++;
+      return {index: m, counter};
     } else if (array[m] < target) {
-      l = m;
+      counter++;
+      l = m + 1;
     } else {
-      r = m;
+      counter++;
+      r = m - 1;
     }
   }
-  return -1;
+  return {index: -1, counter};
 }
 
 function bruteForceSearch(array, target) {
   for (let i = 0; i < array.length; i++) {
     if (array[i] == target) {
-      return i;
+      return {index:i, counter: i};
     }
   }
-  return -1;
+  return {index:-1, counter: array.length};
 }
+
+const NUMBER_OF_EXECUTIONS = 1_000;
 
 const Benchmarks = () => {
   let [randomData, setRandomData] = useState([]);
@@ -38,49 +60,64 @@ const Benchmarks = () => {
   let [bruteForceSearchExecution, setBruteForceSearchExecution] = useState([]);
 
   const handleButtonGenerateDataClick = () => {
-    const NUMBER_OF_TESTS = 1000;
+    const NUMBER_OF_TESTS = 10;
     
-    const INCREMENT = 100;
+    const INCREMENT = 10_000;
     const minValue = 0;
-    const maxValue = 1000000;
+    const maxValue = Number.MAX_SAFE_INTEGER;
 
     const newData = [];
-    for (let i = 1; i <= NUMBER_OF_TESTS; i = i + INCREMENT) {
-      const arraySize = i;
+    let arraySize = 100_000;
+    while(newData.length < NUMBER_OF_TESTS) {
+      arraySize += INCREMENT;
       const array = randomUniqueArray(arraySize, minValue, maxValue);
-      const randomPos = randomNumber(0, arraySize - 1);
-      const target = array[randomPos];
+      //const randomPos = arraySize - 1;//randomNumber(0, arraySize - 1);
+      //console.log('randomPos', array.length, randomPos);
+      const target = -1; // array[randomPos];
+      console.log('generating', array.length);
       newData.push({
         array,
         target,
-        arraySize,
       });
     }
+
     setRandomData(newData);
   };
 
   const handleButtonBinarySearchClick = () => {
     const response = [];
+
     for (let i = 0; i < randomData.length; i++) {
+      let times = [];
       const currentData = randomData[i];
-      const t0 = performance.now();
-      binarySearch(currentData.array, currentData.target);
-      const t1 = performance.now();
-      const time = t1 - t0;
-      response.push({ time, size: currentData.length });
+      for(let j=1;j <= NUMBER_OF_EXECUTIONS;j++){
+        const t0 = performance.now();
+        const response = binarySearch(currentData.array, currentData.target);
+        const t1 = performance.now();
+
+        times.push((t1 - t0) * 1000);
+      }
+      const size = currentData.array.length;
+      response.push({ time: response.counter, timeMs: median(size, times),  size });
     }
-    setBruteForceSearchExecution(response);
+
+    setBinarySearchExecution(response);
   };
 
   const handleButtonBruteForceSearchClick = () => {
     const response = [];
+    
     for (let i = 0; i < randomData.length; i++) {
       const currentData = randomData[i];
-      const t0 = performance.now();
-      bruteForceSearch(currentData.array, currentData.target);
-      const t1 = performance.now();
-      const time = t1 - t0;
-      response.push({ time, size: currentData.length });
+      let times = [];
+      for(let j=1;j <= NUMBER_OF_EXECUTIONS;j++){
+        const t0 = performance.now();
+        const response = bruteForceSearch(currentData.array, currentData.target);
+        const t1 = performance.now();
+        times.push((t1 - t0) * 1000);
+      }
+      const size = currentData.array.length
+      response.push({ time: response.counter, timeMs: median(size, times), size });
     }
     setBruteForceSearchExecution(response);
   };
@@ -114,16 +151,7 @@ const Benchmarks = () => {
       <div style={styles.container}>
         Random Data
         <div>
-          {randomData.length > 0
-            ? randomData.map((item) => {
-                return (
-                  <>
-                    <p> Array Size: {item.arraySize}</p>
-                    <Variable value={item.array} name="Array" maxSize="10" />
-                  </>
-                );
-              })
-            : "Empty"}
+          {randomData.length > 0 ? `Data Size: ${randomData.length} samples` : 'Empty'}
         </div>
       </div>
       <div style={styles.container}>
