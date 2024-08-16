@@ -65,13 +65,12 @@ const styles = {
   },
   container: {
     padding: "20px",
-    margin: "20px",
     backgroundColor: "#FFEEEE",
   },
   header: {
     backgroundColor: "#FFC0CB",
     color: "white",
-    padding: "10px 0",
+    padding: "3px 0",
     textAlign: "center",
   },
   button: {

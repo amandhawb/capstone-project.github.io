@@ -88,7 +88,7 @@ const styles = {
   header: {
     backgroundColor: "#FFC0CB",
     color: "white",
-    padding: "10px 0",
+    padding: "3px 0",
     textAlign: "center",
   },
   section: {

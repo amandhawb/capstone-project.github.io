@@ -74,7 +74,7 @@ const Canvas = (props) => {
 const styles = {
   canvas: {
     padding: "20px",
-    margin: "20px",
+    margin: "20px 0",
     border: "1px solid grey",
     backgroundColor: "#FFFFFF",
   },

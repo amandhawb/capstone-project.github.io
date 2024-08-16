@@ -18,7 +18,7 @@ const LocalVariables = (props) => {
 const styles = {
   container: {
     padding: "20px",
-    margin: "20px",
+    margin: "20px 0",
     backgroundColor: "#FFEEEE",
   },
 };

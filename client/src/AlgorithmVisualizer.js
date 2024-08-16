@@ -74,7 +74,7 @@ const AlgorithmVisualizer = (props) => {
       </SyntaxHighlighter>
       <div style={styles.container}>
         <button style={styles.button} onClick={handleRunCodeOnClick}>
-          Generate Random Datan and Run Code
+          Generate Random Data and Run Code
         </button>
       </div>
       {runs.length > 0 && (
@@ -113,7 +113,7 @@ const styles = {
   },
   container: {
     padding: "20px",
-    margin: "20px",
+    margin: "20px 0",
     backgroundColor: "#FFEEEE",
   },
   button: {
@@ -123,7 +123,7 @@ const styles = {
   header: {
     backgroundColor: "#FFC0CB",
     color: "white",
-    padding: "10px 0",
+    padding: "3px 0",
     textAlign: "center",
   },
   footer: {
