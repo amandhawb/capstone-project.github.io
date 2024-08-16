@@ -5,19 +5,25 @@ import { drawArrow } from "./drawer/arrow";
 const Canvas = (props) => {
   const canvasRef = useRef(null);
 
-  const draw = (canvas, ctx, frameCount, variables) => {
+  const draw = (canvas, ctx, variables) => {
     if (variables.length === 0) {
       return;
     }
 
     let array = null;
-    let idxs = [];
+    let target = null;
 
-    variables.forEach((item) => {
-      if (item.name === "array") {
-        array = item.value;
-      } else if (["i", "l", "m", "r"].includes(item.name)) {
-        idxs.push(item.value);
+    let idxs = [];
+    variables.forEach(([name, value]) => {
+      if (name === "array") {
+        array = value;
+      } else if (name === "target") {
+        target = value;
+      } else if (
+        ["i", "left", "middle", "right"].includes(name) &&
+        value != undefined
+      ) {
+        idxs.push({ idx: value, name });
       }
     });
 
@@ -27,38 +33,40 @@ const Canvas = (props) => {
     // clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    ctx.font = "14px sans-serif";
+    ctx.letterSpacing = "1px";
+    ctx.textAlign = "center";
+
     // draw the whole array
-    drawArray(ctx, array);
+    drawArray(ctx, array, target);
 
     // draw the arrows
-    idxs.forEach((idx) => {
-      console.log(idx);
-      drawArrow(ctx, "black", idx);
+    idxs.forEach(({ idx, name }) => {
+      drawArrow(ctx, idx, name);
     });
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    let frameCount = 0;
     let animationFrameId;
 
     //Our draw came here
     const render = () => {
-      frameCount++;
-      draw(canvas, context, frameCount, props.variables);
+      draw(canvas, context, props.variables);
       animationFrameId = window.requestAnimationFrame(render);
     };
+
     render();
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
     };
-  }, [draw]);
+  }, [props.variables]);
 
   return (
     <div style={styles.canvas}>
-      <canvas ref={canvasRef} />
+      <canvas ref={canvasRef} width="715" height="100" />
     </div>
   );
 };

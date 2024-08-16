@@ -26,7 +26,6 @@ function median(size, array) {
   array.sort((a, b) => a - b);
 
   const response = array[Math.floor(array.length / 2)];
-  console.log("calculate median", size, array, response);
   return response;
 }
 
@@ -37,7 +36,7 @@ function binarySearch(array, target) {
   let r = array.length - 1;
   while (l <= r) {
     const m = Math.floor((l + r) / 2);
-    if (array[m] == target) {
+    if (array[m] === target) {
       counter++;
       return { index: m, counter };
     } else if (array[m] < target) {
@@ -121,7 +120,7 @@ function benchmarkTask() {
 }
 
 const benckMarkFunction = (randomData, fn) => {
-  const NUMBER_OF_EXECUTIONS = 1000;
+  const NUMBER_OF_EXECUTIONS = 5;
 
   const response = [];
 

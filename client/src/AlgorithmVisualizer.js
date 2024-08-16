@@ -3,7 +3,7 @@ import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useState } from "react";
-import Variables from "./Variables";
+import LocalVariables from "./LocalVariables";
 import Canvas from "./Canvas";
 import Logger from "./Logger";
 
@@ -18,28 +18,31 @@ const minValue = 1;
 const maxValue = 50;
 
 const AlgorithmVisualizer = (props) => {
-  const { inputFunction, code, title, drawArray } = props;
+  const { inputFunction, code, title } = props;
 
   let [currentStep, setCurrentStep] = useState(0);
   let [runs, setRuns] = useState([]);
-  let [output, setOutput] = useState(null);
-  let [inputVariables, setInputVariables] = useState([]);
+  let [, setOutput] = useState(null);
+  //let [inputVariables, setInputVariables] = useState([]);
 
   const handleRunCodeOnClick = () => {
+    // generate random input
     const array = randomUniqueArray(arraySize, minValue, maxValue);
     const randomPos = randomNumber(0, arraySize - 1);
     const target = array[randomPos];
+
     const inputArgument = [
       { name: "array", value: array },
       { name: "target", value: target },
     ];
 
+    // execute code
     const response = inputFunction.apply(
       null,
       inputArgument.map((item) => item.value),
     );
 
-    setInputVariables(inputArgument);
+    //setInputVariables(inputArgument);
     setRuns(response.runs);
     setCurrentStep(0);
     setOutput(response.output);
@@ -71,7 +74,7 @@ const AlgorithmVisualizer = (props) => {
       </SyntaxHighlighter>
       <div style={styles.container}>
         <button style={styles.button} onClick={handleRunCodeOnClick}>
-          Run Code
+          Generate Random Datan and Run Code
         </button>
       </div>
       {runs.length > 0 && (
@@ -86,18 +89,17 @@ const AlgorithmVisualizer = (props) => {
         </div>
       )}
       {runs.length > 0 && (
-        <Variables title="Input Variables" variables={inputVariables} />
+        <Canvas variables={Array.from(runs[currentStep].localVariables)} />
       )}
+      {/*runs.length > 0 && (
+        <Variables title="Input Variables" variables={inputVariables} />
+      )*/}
       {runs.length > 0 && (
-        <Variables
-          title="Local Variables"
-          variables={runs[currentStep].localVariables}
+        <LocalVariables
+          variables={Array.from(runs[currentStep].localVariables)}
         />
       )}
       {runs.length > 0 && <Logger logger={runs[currentStep].logger} />}
-      {runs.length > 0 && (
-        <Canvas variables={runs[currentStep].localVariables} />
-      )}
     </div>
   );
 };

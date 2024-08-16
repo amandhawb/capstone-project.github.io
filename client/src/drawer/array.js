@@ -1,23 +1,40 @@
 import config from "./config.js";
 
-const { cellWidth, cellHeight, arrowHeight } = config;
+const { cellWidth, cellHeight, arrowHeight, padding } = config;
 
-export function drawArray(ctx, array) {
-  // Draw the array cells
-  ctx.strokeStyle = "black";
+export function drawArray(ctx, array, target) {
   array.forEach((value, index) => {
+    ctx.strokeStyle = "black";
+
+    // Draw the array cells
+
     // draws a cell
     // ctx.strokeRect(initialPosX, initialPosY, height, width,)
-    ctx.strokeRect(index * cellWidth, arrowHeight, cellWidth, cellHeight);
+    ctx.strokeRect(
+      index * cellWidth,
+      arrowHeight + padding,
+      cellWidth,
+      cellHeight,
+    );
 
     // write the arra[index] context
     // ctx.fillText(text, posX, posY)
-    // we do add cellWidth/2 to centralize the text horizontally
+    // I do add cellWidth/2 to centralize the text horizontally
     // a similar code is also done to centralize the text vertically
     ctx.fillText(
       value,
       index * cellWidth + cellWidth / 2,
-      arrowHeight + cellHeight / 2,
+      arrowHeight + padding + cellHeight / 2,
     );
+    if (value === target) {
+      ctx.strokeStyle = "red";
+
+      ctx.strokeRect(
+        index * cellWidth + cellWidth / 4,
+        arrowHeight + padding + cellHeight / 4,
+        35,
+        30,
+      );
+    }
   });
 }

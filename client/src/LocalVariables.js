@@ -1,14 +1,14 @@
 import React from "react";
 import Variable from "./Variable";
 
-const Variables = (props) => {
-  const { variables, title } = props;
+const LocalVariables = (props) => {
+  const { variables } = props;
   return (
     <div style={styles.container}>
-      {title}
+      <h3>Local Variables</h3>
       <div>
-        {variables.map((item) => (
-          <Variable value={item.value} name={item.name} />
+        {variables.map(([name, value]) => (
+          <Variable key={name} name={name} value={value} />
         ))}
       </div>
     </div>
@@ -23,4 +23,4 @@ const styles = {
   },
 };
 
-export default Variables;
+export default LocalVariables;

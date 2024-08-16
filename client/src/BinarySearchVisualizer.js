@@ -1,74 +1,88 @@
 import React from "react";
 import AlgorithmVisualizer from "./AlgorithmVisualizer";
-import { createTracer } from "./utils/tracer";
+import Tracer from "./utils/Tracer";
+
 const code = `function binarySearch(array, target){
     let left = 0;
-    let right = array.length-1;
+    let right = array.length - 1;
+
     while(left <= right){
-     const middle = Math.floor((left+right)/2);
-     if(array[middle] == target){
+     const middle = Math.floor((left + right) / 2);
+     if(array[middle] === target){
         return middle;
       } else if(array[middle] < target){
-        left = middle;
+        left = middle + 1;
       } else {
-        right = middle;
+        right = middle - 1;
       }
     }
     return -1;
   }`;
 
 function binarySearch(array, target) {
-  const tracer = createTracer();
+  let response = -1;
 
+  const tracer = new Tracer();
   tracer.newStep();
   tracer.logger("Starting...");
 
-  let response = -1;
-  let l = 0;
-  let r = array.length - 1;
-
   tracer.saveVariables([
-    { name: "left", value: 0 },
-    { name: "right", value: r },
-    { name: "middle", value: undefined },
     { name: "array", value: array },
+    { name: "target", value: target },
+    { name: "left", value: undefined },
+    { name: "right", value: undefined },
+    { name: "middle", value: undefined },
   ]);
 
-  while (l <= r) {
-    const m = Math.floor((l + r) / 2);
-    const middle = array[m];
+  tracer.newStep();
+  tracer.logger("Initializing left");
+  let left = 0;
+  tracer.saveVariables([{ name: "left", value: left }]);
+
+  tracer.newStep();
+  tracer.logger("Initializing right");
+  let right = array.length - 1;
+  tracer.saveVariables([{ name: "right", value: right }]);
+
+  tracer.newStep();
+  tracer.logger(`Checking ${left} < ${right}`);
+  while (left <= right) {
+    tracer.newStep();
+    tracer.logger("Initializing middle");
+    const middle = Math.floor((left + right) / 2);
+    tracer.saveVariables([{ name: "middle", value: middle }]);
 
     tracer.newStep();
-    tracer.logger("Executing the while");
-    tracer.logger("Creating m variable");
-
-    tracer.saveVariables([
-      { name: "left", value: l },
-      { name: "right", value: r },
-      { name: "middle", value: m },
-      { name: "array", value: array },
-    ]);
-
-    tracer.logger("Checking if middle is equal target");
-
-    if (middle == target) {
-      tracer.logger("We found the target");
-      response = m;
-      tracer.logger("Skipping while");
-
+    tracer.logger("Checking if array[middle] is equal target");
+    if (array[middle] === target) {
+      tracer.newStep();
+      tracer.logger(`We found the target ${target} at position ${middle}`);
+      response = middle;
+      tracer.logger("Returning middle");
       break; // skip the while
-    } else if (middle < target) {
-      tracer.logger("middle is lower than target");
+    }
 
-      l = middle;
+    tracer.newStep();
+    tracer.logger("Checking if array[middle] is lower than target");
+    if (array[middle] < target) {
+      tracer.newStep();
+      tracer.logger(
+        "array[middle] is lower than target. Lets update left pointer",
+      );
+      tracer.logger("Updaring left value");
+      left = middle + 1;
+      tracer.saveVariables([{ name: "left", value: left }]);
     } else {
+      tracer.newStep();
       tracer.logger("middle is greater than target");
-
-      r = middle;
+      tracer.logger("Updating right value");
+      right = middle - 1;
+      tracer.saveVariables([{ name: "right", value: right }]);
     }
   }
+
   tracer.newStep();
-  tracer.logger("returning");
+  tracer.logger("Finished");
 
   tracer.saveResult(response);
   return tracer.getState();
