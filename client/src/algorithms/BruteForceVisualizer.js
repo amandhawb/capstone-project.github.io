@@ -1,6 +1,6 @@
 import React from "react";
 import AlgorithmVisualizer from "./AlgorithmVisualizer";
-import Tracer from "./utils/Tracer";
+import Tracer from "../utils/Tracer";
 
 const code = `function bruteForceSearch(array, target){
     for(let i=0;i < array.length;i++){

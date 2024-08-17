@@ -1,6 +1,6 @@
 import React from "react";
 import AlgorithmVisualizer from "./AlgorithmVisualizer";
-import Tracer from "./utils/Tracer";
+import Tracer from "../utils/Tracer";
 
 const code = `function binarySearch(array, target){
     let left = 0;

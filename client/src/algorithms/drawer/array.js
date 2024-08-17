@@ -26,6 +26,14 @@ export function drawArray(ctx, array, target) {
       index * cellWidth + cellWidth / 2,
       arrowHeight + padding + cellHeight / 2,
     );
+
+    ctx.fillText(
+      index.toString(),
+      index * cellWidth + cellWidth / 2, // cell horizontal center
+      arrowHeight + cellHeight + padding*4,
+    );
+
+    // draw a small rectangle to highlight the target
     if (value === target) {
       ctx.strokeStyle = "red";
 

@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
 import DataStructuresPage from "./DataStructuresPage";
-import BinarySearchVisualizer from "./BinarySearchVisualizer";
-import BruteForceVisualizer from "./BruteForceVisualizer";
-import Benchmarks from "./Benchmarks";
+import BinarySearchVisualizer from "./algorithms/BinarySearchVisualizer";
+import BruteForceVisualizer from "./algorithms/BruteForceVisualizer";
+import Benchmarks from "./benchmark/Benchmarks";
 
 const App = () => {
   return (

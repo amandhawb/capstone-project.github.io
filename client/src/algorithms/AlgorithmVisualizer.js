@@ -7,8 +7,8 @@ import LocalVariables from "./LocalVariables";
 import Canvas from "./Canvas";
 import Logger from "./Logger";
 
-import { randomUniqueArray } from "./utils/random-array";
-import { randomNumber } from "./utils/random-number";
+import { randomUniqueArray } from "../utils/random-array";
+import { randomNumber } from "../utils/random-number";
 
 // Register the JavaScript language
 SyntaxHighlighter.registerLanguage("javascript", js);

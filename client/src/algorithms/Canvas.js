@@ -21,7 +21,7 @@ const Canvas = (props) => {
         target = value;
       } else if (
         ["i", "left", "middle", "right"].includes(name) &&
-        value != undefined
+        value !== undefined
       ) {
         idxs.push({ idx: value, name });
       }
@@ -66,7 +66,7 @@ const Canvas = (props) => {
 
   return (
     <div style={styles.canvas}>
-      <canvas ref={canvasRef} width="715" height="100" />
+      <canvas ref={canvasRef} width="715" height="140" />
     </div>
   );
 };

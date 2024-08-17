@@ -15,7 +15,7 @@ const Variable = (props) => {
   }
   return (
     <p>
-      {name}: {formatedValue}
+      <b>{name}</b>: {formatedValue}
     </p>
   );
 };
